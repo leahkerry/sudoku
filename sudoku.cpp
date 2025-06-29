@@ -30,15 +30,15 @@ int main(int argc, char *argv[]) {
     Board *myBoard; 
     if (argc < 2) {
         myBoard = new Board(3); 
-        myBoard->printBoard();
     } else {
         myBoard = new Board(argv[1]); // TODO close file
-        myBoard->printBoard();
     }
-    
-    myBoard->solveBoard();
-    
 
+    myBoard->solveBoard();
+    myBoard->outputBoard();
+    if (!myBoard->isValidBoard()) {
+        cout << "NOOOOOOOOO";
+    }
     return 0;
 
 }

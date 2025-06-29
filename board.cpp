@@ -31,8 +31,8 @@ void Board::readFile(const string &filename) {
     int chars = 0;
     int row, col;
     while (inFile.get(c) && chars < fullSize * fullSize) {
-        row = chars % fullSize;
-        col = chars / fullSize;
+        row = chars / fullSize;
+        col = chars % fullSize;
 
         int num = int(c) - '0';
         if (num < 0 || num > 9) num = 0; // space filler is 0
@@ -94,10 +94,10 @@ int Board::getSize() {
     return fullSize;
 }
 
-bool Board::isValidNum(int r, int c) {
+bool Board::isValidNum(int r, int c, int val) {
     
-    int val = boardData[r][c];
-    cout << "is " << val << " valid?\n";
+    // int val = boardData[r][c];
+    // cout << "is " << val << " valid?\n";
     // if val is 0, then it is a valid empty cell
     if (val == 0) return true; 
 
@@ -106,7 +106,7 @@ bool Board::isValidNum(int r, int c) {
         
         int sq_c_i = ((c / rootSize) * rootSize) + (i % rootSize);
         int sq_r_i = ((r / rootSize) * rootSize) + (i / rootSize);
-        if (val == boardData[sq_r_i][sq_c_i] && (sq_c_i != c && sq_r_i != r)) return false; 
+        if (val == boardData[sq_r_i][sq_c_i] && (sq_c_i != c || sq_r_i != r)) return false; 
         // check col
         if (val == boardData[r][i] && (i != c))                               return false; 
         // check row
@@ -116,9 +116,53 @@ bool Board::isValidNum(int r, int c) {
 }   
 
 int Board::solveBoard() {
-    cout << isValidNum(0, 0) << endl;
-    cout << isValidNum(4,5) << endl;
-    boardData[4][5] = 4;
-    cout << isValidNum(4,5) << endl;
+    // printBoard();
+    return solveBoardRec(0, 0); 
+}
+
+int Board::solveBoardRec(int r, int c) {
+    
+    if (r == fullSize - 1 && c == fullSize) { 
+        return 1; 
+    } 
+
+    if (c == fullSize) {
+        c = 0;
+        r++;
+    }
+
+    if (boardData[r][c] != 0) {
+        return solveBoardRec(r, c + 1);
+    }
+    
+    for (int n = 1; n <= fullSize; n++) {
+        
+        if (isValidNum(r, c, n)) {
+            
+            boardData[r][c] = n; 
+            if(solveBoardRec(r, c + 1) > 0) {
+                return 1; 
+            }
+            boardData[r][c] = 0; 
+        }
+    }
     return 0; 
+}
+
+void Board::outputBoard() {
+    for (int r = 0; r < fullSize; r++) {
+        for (int c = 0; c < fullSize; c++) {
+            cout << boardData[r][c];
+        }
+    }
+    cout << endl;
+}
+
+bool Board::isValidBoard() {
+    for (int r = 0; r < fullSize; r++) {
+        for (int c = 0; c < fullSize; c++) {
+            if (!isValidNum(r, c, boardData[r][c])) return false;
+        }
+    }
+    return true; 
 }

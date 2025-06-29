@@ -18,6 +18,8 @@ public:
     int solveBoard();
 
     int getSize();
+    void outputBoard();
+    bool isValidBoard();
     
 
 private: 
@@ -25,12 +27,14 @@ private:
     static const int DEFAULT_DIM = 3;
     int rootSize;
     int fullSize;
+    int **boardData;
 
     void readFile(const string &filename);
     void setDims(int a);
     void printHline();
-    bool isValidNum(int r, int c);
-    int **boardData;
+    bool isValidNum(int r, int c, int val);
+    
+    int solveBoardRec(int r, int c);
 };
 
 #endif
