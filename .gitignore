@@ -1,0 +1,8 @@
+# Compiled source #
+###################
+*.exe
+*.o
+
+# Testing output #
+###################
+*.out
