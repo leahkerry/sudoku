@@ -23,6 +23,12 @@ Board::Board(const string &filename) {
 
 }
 
+Board::~Board() {
+    for (unsigned i = 0; i < fullSize; i++) {
+        delete [] boardData[i];
+    }
+    delete [] boardData;
+}
 void Board::readFile(const string &filename) {
     ifstream inFile(filename);
     if (!inFile) { throw runtime_error("File could not be read."); }
