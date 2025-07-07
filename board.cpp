@@ -66,15 +66,16 @@ void Board::generateEmptyBoard() {
 }
 
 void Board::generateBoard(difficulty d) {
+    int toRemove;
     switch (d) {
         case EASY:
-            cout << "easy" << endl;
+            toRemove = fullSize * fullSize / 3;
             break;
         case MEDIUM: 
-            cout << "medium" << endl;
+            toRemove = fullSize * fullSize / 3 * 2;
             break;
         case HARD:
-            cout << "hard" << endl;
+            toRemove = fullSize * fullSize / 4 * 3;
             break;
     }
 
@@ -86,6 +87,24 @@ void Board::generateBoard(difficulty d) {
      */
     
     solveBoard();
+
+    // Remove numbers at random 
+    int removed = 0;
+    int r, c, original; 
+    // cout << "removing" << toRemove << endl;
+    while (removed < toRemove) {
+        r = get_random(0, fullSize-1);
+        c = get_random(0, fullSize-1);
+        original = boardData[r][c];
+        boardData[r][c] = 0;
+        // if (solveBoard() > 1) { // TODO: solveBoard will augment the board data
+        //     boardData[r][c] = original;
+        // } else {
+        //     removed++;
+        // }
+        removed++;
+        
+    }
 
 }
 
@@ -158,6 +177,7 @@ int Board::solveBoardRec(int r, int c) {
     if (boardData[r][c] != 0) {
         return solveBoardRec(r, c + 1);
     }
+
     int numways = 0;
     
     vector<int> v = permute_digits(fullSize);

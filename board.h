@@ -1,3 +1,10 @@
+/***********************************************
+ *                   BOARD 
+ * Created: 7/4/25
+ * Purpose: Main functionality of a sudoku board
+ *          including generating, printing, and 
+ *          solving
+ ***********************************************/
 #ifndef BOARD_H
 #define BOARD_H
 
@@ -5,7 +12,6 @@
 #include <fstream>
 #include <cstdlib>
 #include <algorithm>
-// #include <ctime> 
 #include <random>
 #include <chrono> 
 #include "arith.h"
