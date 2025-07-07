@@ -4,7 +4,15 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include <algorithm>
+// #include <ctime> 
+#include <random>
+#include <chrono> 
+#include "arith.h"
 
+enum difficulty {
+    EASY, MEDIUM, HARD
+};
 
 using namespace std; 
 class Board {
@@ -13,7 +21,9 @@ public:
     Board(int a);
     Board(const string &filename);
 
-    void generateBoard();
+    void generateEmptyBoard();
+    void generateBoard(difficulty);
+    
     void printBoard();
     int solveBoard();
 
@@ -28,6 +38,7 @@ private:
     int rootSize;
     int fullSize;
     int **boardData;
+    unsigned seed;
 
     void readFile(const string &filename);
     void setDims(int a);

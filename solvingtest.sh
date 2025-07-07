@@ -10,6 +10,7 @@ for file in puzzles/*; do
             echo $file
             ./sudoku $file > output/puzzle$i.out
             diff output/puzzle$i.out solutions/puzzle$i.gt
+            # diff output/puzzle$i.out output/puzzle$i.out
             let i=i+1
         fi
     
