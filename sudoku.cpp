@@ -8,6 +8,7 @@
  *    () Verifies board  
  *    () Solves board
  *    () Generates EASY, MED, or HARD board
+ *    () Generates printable sheet of sudoku board
  *
  * Development
  *    (1) Print a board
@@ -22,7 +23,8 @@
 #include <iostream>
 #include <fstream>
 #include "board.h"
-
+// #include <cstdlib>
+// #include<ctime>
 using namespace std; 
 
 int main(int argc, char *argv[]) {
@@ -30,6 +32,7 @@ int main(int argc, char *argv[]) {
     Board *myBoard; 
     if (argc < 2) {
         myBoard = new Board(3); 
+        myBoard->generateBoard(MEDIUM);
     } else {
         myBoard = new Board(argv[1]); 
     }

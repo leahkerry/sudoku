@@ -1,10 +1,24 @@
+/***********************************************
+ *                   BOARD 
+ * Created: 7/4/25
+ * Purpose: Main functionality of a sudoku board
+ *          including generating, printing, and 
+ *          solving
+ ***********************************************/
 #ifndef BOARD_H
 #define BOARD_H
 
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include <algorithm>
+#include <random>
+#include <chrono> 
+#include "arith.h"
 
+enum difficulty {
+    EASY, MEDIUM, HARD
+};
 
 using namespace std; 
 class Board {
@@ -14,7 +28,9 @@ public:
     Board(const string &filename);
     ~Board();
 
-    void generateBoard();
+    void generateEmptyBoard();
+    void generateBoard(difficulty);
+    
     void printBoard();
     int solveBoard();
 
@@ -29,6 +45,7 @@ private:
     int rootSize;
     int fullSize;
     int **boardData;
+    unsigned seed;
 
     void readFile(const string &filename);
     void setDims(int a);

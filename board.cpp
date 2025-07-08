@@ -10,14 +10,14 @@ Board::Board(int a) {
         fullSize = 3 * 3;
     }
 
-    generateBoard();
+    generateEmptyBoard();
 
 }
 
 Board::Board(const string &filename) {
 
     setDims(DEFAULT_DIM); // Assume we have a 3x3 file for now
-    generateBoard();
+    generateEmptyBoard();
 
     readFile(filename);
 
@@ -55,7 +55,7 @@ void Board::setDims(int a) {
     fullSize = a * a;
 }
 
-void Board::generateBoard() {
+void Board::generateEmptyBoard() {
 
     boardData = new int*[fullSize];
 
@@ -69,6 +69,49 @@ void Board::generateBoard() {
 
         }
     }
+}
+
+void Board::generateBoard(difficulty d) {
+    int toRemove;
+    switch (d) {
+        case EASY:
+            toRemove = fullSize * fullSize / 3;
+            break;
+        case MEDIUM: 
+            toRemove = fullSize * fullSize / 3 * 2;
+            break;
+        case HARD:
+            toRemove = fullSize * fullSize / 4 * 3;
+            break;
+    }
+
+    /* how to solve a sudoku board */
+    /* place random numbers if valid and if not then backtrack 
+     * remove numbers until the number of ways to solve is one
+     * 
+     *  
+     */
+    
+    solveBoard();
+
+    // Remove numbers at random 
+    int removed = 0;
+    int r, c, original; 
+    // cout << "removing" << toRemove << endl;
+    while (removed < toRemove) {
+        r = get_random(0, fullSize-1);
+        c = get_random(0, fullSize-1);
+        original = boardData[r][c];
+        boardData[r][c] = 0;
+        // if (solveBoard() > 1) { // TODO: solveBoard will augment the board data
+        //     boardData[r][c] = original;
+        // } else {
+        //     removed++;
+        // }
+        removed++;
+        
+    }
+
 }
 
 void Board::printHline(){
@@ -136,23 +179,30 @@ int Board::solveBoardRec(int r, int c) {
         c = 0;
         r++;
     }
-
+    
     if (boardData[r][c] != 0) {
         return solveBoardRec(r, c + 1);
     }
+
+    int numways = 0;
     
-    for (int n = 1; n <= fullSize; n++) {
-        
+    vector<int> v = permute_digits(fullSize);
+
+    int n;
+    // for (int i = 0; i < fullSize; i++) { // TODO: get iterator over vector
+    for (int& n: v) {
+        // n = v[i];
         if (isValidNum(r, c, n)) {
             
             boardData[r][c] = n; 
             if(solveBoardRec(r, c + 1) > 0) {
-                return 1; 
+                numways++; // TODO: store in saved array
+                return true;
             }
             boardData[r][c] = 0; 
         }
     }
-    return 0; 
+    return numways; 
 }
 
 void Board::outputBoard() {
