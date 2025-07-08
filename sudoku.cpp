@@ -8,6 +8,7 @@
  *    () Verifies board  
  *    () Solves board
  *    () Generates EASY, MED, or HARD board
+ *    () Generates printable sheet of sudoku board
  *
  * Development
  *    (1) Print a board
@@ -33,14 +34,13 @@ int main(int argc, char *argv[]) {
         myBoard = new Board(3); 
         myBoard->generateBoard(MEDIUM);
     } else {
-        myBoard = new Board(argv[1]); // TODO close file
+        myBoard = new Board(argv[1]); 
     }
 
     myBoard->solveBoard();
     myBoard->outputBoard();
-    if (!myBoard->isValidBoard()) {
-        cout << "NOOOOOOOOO";
-    }
+
+    delete myBoard;
     return 0;
 
 }
