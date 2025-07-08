@@ -26,6 +26,7 @@ class Board {
 public: 
     Board(int a);
     Board(const string &filename);
+    ~Board();
 
     void generateEmptyBoard();
     void generateBoard(difficulty);

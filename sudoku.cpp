@@ -34,15 +34,13 @@ int main(int argc, char *argv[]) {
         myBoard = new Board(3); 
         myBoard->generateBoard(MEDIUM);
     } else {
-        myBoard = new Board(argv[1]); // TODO close file
+        myBoard = new Board(argv[1]); 
     }
 
-    // myBoard->solveBoard();
-    // myBoard->outputBoard();
-    myBoard->printBoard();
-    if (!myBoard->isValidBoard()) {
-        cout << "NOOOOOOOOO";
-    }
+    myBoard->solveBoard();
+    myBoard->outputBoard();
+
+    delete myBoard;
     return 0;
 
 }
