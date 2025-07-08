@@ -31,14 +31,13 @@ int main(int argc, char *argv[]) {
     if (argc < 2) {
         myBoard = new Board(3); 
     } else {
-        myBoard = new Board(argv[1]); // TODO close file
+        myBoard = new Board(argv[1]); 
     }
 
     myBoard->solveBoard();
     myBoard->outputBoard();
-    if (!myBoard->isValidBoard()) {
-        cout << "NOOOOOOOOO";
-    }
+
+    delete myBoard;
     return 0;
 
 }

@@ -12,6 +12,7 @@ class Board {
 public: 
     Board(int a);
     Board(const string &filename);
+    ~Board();
 
     void generateBoard();
     void printBoard();
