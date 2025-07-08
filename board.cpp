@@ -163,9 +163,7 @@ int Board::solveBoardRec(int r, int c) {
     vector<int> v = permute_digits(fullSize);
 
     int n;
-    // for (int i = 0; i < fullSize; i++) { // TODO: get iterator over vector
     for (int& n: v) {
-        // n = v[i];
         if (isValidNum(r, c, n)) {
             
             boardData[r][c] = n; 
