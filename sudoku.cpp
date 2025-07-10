@@ -32,14 +32,15 @@ int main(int argc, char *argv[]) {
     Board *myBoard; 
     if (argc < 2) {
         myBoard = new Board(3); 
-        myBoard->generateBoard(MEDIUM);
+        myBoard->generateBoard(HARD);
     } else {
         myBoard = new Board(argv[1]); 
     }
 
+    myBoard->printBoard();
     myBoard->solveBoard();
+    myBoard->printBoard();
     myBoard->outputBoard();
-
     delete myBoard;
     return 0;
 

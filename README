@@ -5,6 +5,7 @@ Generate it:
 - Using memoization and backtracking, generate how many options you have 
 - Remove squares at random from a randomly generated board (as longs as ways to solve < 2)
 - Remove certain amount of squares as long as this condition is true
+- Dont try same squares twice
 Testing: 
 - Python script to read in all of csv to test
 
