@@ -29,6 +29,19 @@ Board::~Board() {
     }
     delete [] boardData;
 }
+
+Board::Board(const Board &other) {
+    this->rootSize = other.rootSize;
+    this->fullSize = other.fullSize;
+    generateEmptyBoard();
+    for (int r = 0; r < fullSize; r++) {
+        for (int c = 0; c < fullSize; c++) {
+            this->boardData[r][c] = other.boardData[r][c];
+        }
+    }
+
+}
+
 void Board::readFile(const string &filename) {
     ifstream inFile(filename);
     if (!inFile) { throw runtime_error("File could not be read."); }
@@ -81,7 +94,7 @@ void Board::generateBoard(difficulty d) {
             toRemove = fullSize * fullSize / 3 * 2;
             break;
         case HARD:
-            toRemove = fullSize * fullSize / 4 * 3;
+            toRemove = fullSize * fullSize / 4 *3;
             break;
     }
 
@@ -94,21 +107,28 @@ void Board::generateBoard(difficulty d) {
     
     solveBoard();
 
-    // Remove numbers at random 
+    // keep track of idxs you've tried
+    // and keep track of items you've removed
+    
     int removed = 0;
     int r, c, original; 
-    // cout << "removing" << toRemove << endl;
-    while (removed < toRemove) {
+    r = get_random(0, fullSize-1);
+    c = get_random(0, fullSize-1);
+
+    while (removed <= toRemove) {
         r = get_random(0, fullSize-1);
         c = get_random(0, fullSize-1);
         original = boardData[r][c];
         boardData[r][c] = 0;
-        // if (solveBoard() > 1) { // TODO: solveBoard will augment the board data
-        //     boardData[r][c] = original;
-        // } else {
-        //     removed++;
-        // }
-        removed++;
+
+        int numWays = numWaysToSolve();
+        // cout << "WAYS TO SOLVE: " << numWays << ": " << removed << " / " << toRemove << endl;
+        if (numWaysToSolve() > 1) { 
+            boardData[r][c] = original;
+        } else {
+            removed++;
+        }
+        
         
     }
 
@@ -151,13 +171,15 @@ bool Board::isValidNum(int r, int c, int val) {
     if (val == 0) return true; 
 
     for (int i = 0; i < fullSize; i++) {
-        // check box
         
+        // check box
         int sq_c_i = ((c / rootSize) * rootSize) + (i % rootSize);
         int sq_r_i = ((r / rootSize) * rootSize) + (i / rootSize);
         if (val == boardData[sq_r_i][sq_c_i] && (sq_c_i != c || sq_r_i != r)) return false; 
+
         // check col
         if (val == boardData[r][i] && (i != c))                               return false; 
+
         // check row
         if (val == boardData[i][c] && (i != r))                               return false; 
     }
@@ -165,9 +187,15 @@ bool Board::isValidNum(int r, int c, int val) {
 }   
 
 int Board::solveBoard() {
-    // printBoard();
     return solveBoardRec(0, 0); 
 }
+
+
+int Board::numWaysToSolve() {
+    // Board *currBoard = new Board(*this);
+    return numWaysToSolveRec(0, 0); 
+}
+    
 
 int Board::solveBoardRec(int r, int c) {
     
@@ -189,14 +217,12 @@ int Board::solveBoardRec(int r, int c) {
     vector<int> v = permute_digits(fullSize);
 
     int n;
-    // for (int i = 0; i < fullSize; i++) { // TODO: get iterator over vector
     for (int& n: v) {
-        // n = v[i];
         if (isValidNum(r, c, n)) {
             
             boardData[r][c] = n; 
             if(solveBoardRec(r, c + 1) > 0) {
-                numways++; // TODO: store in saved array
+                numways++; // TODO: dont need this, change to bool funct
                 return true;
             }
             boardData[r][c] = 0; 
@@ -204,6 +230,40 @@ int Board::solveBoardRec(int r, int c) {
     }
     return numways; 
 }
+
+
+int Board::numWaysToSolveRec(int r, int c) {
+    
+    if (r == fullSize - 1 && c == fullSize) { 
+        return 1; 
+    } 
+
+    if (c == fullSize) {
+        c = 0;
+        r++;
+    }
+    
+    if (boardData[r][c] != 0) {
+        return numWaysToSolveRec(r, c + 1);
+    }
+
+    int numways = 0;
+    
+    vector<int> v = permute_digits(fullSize);
+
+    for (int& n: v) {
+        if (isValidNum(r, c, n)) { 
+            
+            Board *newBoard = new Board(*this);
+            newBoard->boardData[r][c] = n; 
+            int currways = newBoard->numWaysToSolveRec(r, c + 1);
+            numways += currways;
+            delete newBoard;
+        }
+    }
+    return numways; 
+}
+
 
 void Board::outputBoard() {
     for (int r = 0; r < fullSize; r++) {

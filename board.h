@@ -15,6 +15,8 @@
 #include <random>
 #include <chrono> 
 #include "arith.h"
+#include <set>
+#include <utility> // for pair
 
 enum difficulty {
     EASY, MEDIUM, HARD
@@ -26,6 +28,7 @@ class Board {
 public: 
     Board(int a);
     Board(const string &filename);
+    Board(const Board &other);
     ~Board();
 
     void generateEmptyBoard();
@@ -33,10 +36,12 @@ public:
     
     void printBoard();
     int solveBoard();
+    int numWaysToSolve();
 
     int getSize();
     void outputBoard();
     bool isValidBoard();
+    
     
 
 private: 
@@ -45,7 +50,6 @@ private:
     int rootSize;
     int fullSize;
     int **boardData;
-    unsigned seed;
 
     void readFile(const string &filename);
     void setDims(int a);
@@ -53,6 +57,7 @@ private:
     bool isValidNum(int r, int c, int val);
     
     int solveBoardRec(int r, int c);
+    int numWaysToSolveRec(int r, int c);
 };
 
 #endif
