@@ -2,7 +2,18 @@
 ###################
 *.exe
 *.o
+build/*
 
 # Testing output #
 ###################
 *.out
+
+# Python cache #
+##################      
+
+__pycache__/
+*.pyc
+
+# CMake files #
+###################
+output/
