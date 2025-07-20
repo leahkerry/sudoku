@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel 
-import build.sudoku as sudoku
+# import build.sudoku as sudoku
 from enum import Enum
 
 app = FastAPI()
@@ -15,10 +15,10 @@ boards = []
 def root():
     return {"Hello": "World"}
 
-@app.post("/boards")
-def create_board():
-    boards.append(sudoku.generate_board(3, sudoku.difficulty.EASY))
-    return boards
+# @app.post("/boards")
+# def create_board():
+#     boards.append(sudoku.generate_board(3, sudoku.difficulty.EASY))
+#     return boards
 
 @app.post("/items")
 def create_item(item: Item):
