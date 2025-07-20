@@ -274,6 +274,16 @@ void Board::outputBoard() {
     cout << endl;
 }
 
+string Board::getString() {
+    string boardString = "";
+    for (int r = 0; r < fullSize; r++) {
+        for (int c = 0; c < fullSize; c++) {
+            boardString += to_string(boardData[r][c]);
+        }
+    }
+    return boardString;
+}
+
 bool Board::isValidBoard() {
     for (int r = 0; r < fullSize; r++) {
         for (int c = 0; c < fullSize; c++) {
