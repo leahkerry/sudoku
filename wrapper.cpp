@@ -1,15 +1,17 @@
 #include <pybind11/pybind11.h>
 #include "board.h"
 #include <pybind11/stl.h> // For std::vector, etc. if needed
-
+#include <string> 
 namespace py = pybind11;
+using namespace std;
 
-
-void generate_board(int a, difficulty d) 
+string generate_board(int a, difficulty d) 
 {
     Board board(a);
     board.generateBoard(d);
-    board.printBoard();
+    // board.printBoard();
+    string boardStr = board.getString();
+    return boardStr;
 }
 
 PYBIND11_MODULE(sudoku, m)

@@ -18,13 +18,12 @@
  *    (5) Pretty print board
  *    (6) Generate board
  *    (7) Generate board of varying difficulty
- *
+ *    
  *********************************************************/
 #include <iostream>
 #include <fstream>
 #include "board.h"
-// #include <cstdlib>
-// #include<ctime>
+
 using namespace std; 
 
 int main(int argc, char *argv[]) {

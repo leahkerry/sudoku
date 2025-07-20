@@ -16,6 +16,7 @@
 #include <chrono> 
 #include "arith.h"
 #include <set>
+#include <string>
 #include <utility> // for pair
 
 enum difficulty {
@@ -40,6 +41,7 @@ public:
 
     int getSize();
     void outputBoard();
+    string getString();
     bool isValidBoard();
     
     
