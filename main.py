@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel 
-import sudoku as sudoku
+import build.sudoku as sudoku
 from enum import Enum
 
 app = FastAPI()
