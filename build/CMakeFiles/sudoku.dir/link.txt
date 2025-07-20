@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -flto -shared -Wl,-soname,sudoku.cpython-310-x86_64-linux-gnu.so -o sudoku.cpython-310-x86_64-linux-gnu.so CMakeFiles/sudoku.dir/wrapper.cpp.o CMakeFiles/sudoku.dir/board.cpp.o CMakeFiles/sudoku.dir/arith.cpp.o  /usr/lib/x86_64-linux-gnu/libpython3.10.so
