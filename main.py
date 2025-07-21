@@ -1,9 +1,19 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel 
 # import build.sudoku as sudoku
+
 from enum import Enum
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # You can restrict this to specific domains
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 class Item(BaseModel):
     text: str = None
@@ -36,3 +46,6 @@ def get_item(item_id: int) -> Item:
         return items[item_id]
     else: 
         raise HTTPException(status_code=404, detail=f"Item {item_id} not found")
+
+        
+
