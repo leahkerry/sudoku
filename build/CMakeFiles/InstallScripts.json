@@ -1,7 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/home/lkerry/cpp_api/sudoku/build/cmake_install.cmake"
-	],
-	"Parallel" : false
-}
