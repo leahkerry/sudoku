@@ -47,5 +47,7 @@ def get_item(item_id: int) -> Item:
     else: 
         raise HTTPException(status_code=404, detail=f"Item {item_id} not found")
 
-        
+@app.get("/boards", response_model=list[string])
+def get_boards():
+    return boards
 
