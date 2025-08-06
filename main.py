@@ -34,12 +34,12 @@ def create_hard_board():
 
 @app.post("/boards/med")
 def create_med_board():
-    med_boards.append(sudoku.generate_board(3, sudoku.difficulty.HARD))
+    med_boards.append(sudoku.generate_board(3, sudoku.difficulty.MEDIUM))
     return med_boards
 
 @app.post("/boards/easy")
 def create_easy_board():
-    easy_boards.append(sudoku.generate_board(3, sudoku.difficulty.HARD))
+    easy_boards.append(sudoku.generate_board(3, sudoku.difficulty.EASY))
     return easy_boards
 
 
