@@ -17,7 +17,7 @@
 #include "arith.h"
 #include <set>
 #include <string>
-#include <utility> // for pair
+#include <chrono> // TODO del
 
 enum difficulty {
     EASY, MEDIUM, HARD
@@ -27,6 +27,7 @@ using namespace std;
 class Board {
 
 public: 
+    Board();
     Board(int a);
     Board(const string &filename);
     Board(const Board &other);

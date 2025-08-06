@@ -30,8 +30,8 @@ int main(int argc, char *argv[]) {
 
     Board *myBoard; 
     if (argc < 2) {
-        myBoard = new Board(3); 
-        myBoard->generateBoard(HARD);
+        myBoard = new Board(); 
+        myBoard->generateBoard(EASY);
     } else {
         myBoard = new Board(argv[1]); 
     }
