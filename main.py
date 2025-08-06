@@ -27,17 +27,17 @@ easy_boards = []
 def root():
     return {"Hello": "World"}
 
-@app.post("/boards")
+@app.post("/boards/hard")
 def create_hard_board():
     hard_boards.append(sudoku.generate_board(3, sudoku.difficulty.HARD))
     return hard_boards
 
-@app.post("/boards")
+@app.post("/boards/med")
 def create_med_board():
     med_boards.append(sudoku.generate_board(3, sudoku.difficulty.HARD))
     return med_boards
 
-@app.post("/boards")
+@app.post("/boards/easy")
 def create_easy_board():
     easy_boards.append(sudoku.generate_board(3, sudoku.difficulty.HARD))
     return easy_boards
@@ -63,7 +63,7 @@ def get_hard_boards():
 @app.get("/boards", response_model=list[str])
 def get_med_boards():
     return med_boards
-    
+
 @app.get("/boards", response_model=list[str])
 def get_easy_boards():
     return easy_boards
