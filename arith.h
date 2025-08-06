@@ -16,6 +16,7 @@
 using namespace std; 
 
 vector<int> permute_digits(int fullSize);
+vector<int> permute_digits_0idx(int fullSize);
 int get_random(int start, int end);
 
 #endif

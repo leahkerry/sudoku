@@ -1,17 +1,24 @@
 #include "board.h"
 using namespace std; 
 
+/*****************************************************
+                    CONSTRUCTORS 
+ ******************************************************/
+
+Board::Board() {
+    setDims(DEFAULT_DIM);
+    generateEmptyBoard();
+}
+
 Board::Board(int a) {
     try {
         setDims(a);
     } catch (runtime_error& error) {
         cerr << "Error:" << error.what() << "... setting board to 9x9" << endl;
-        rootSize = 3;
-        fullSize = 3 * 3;
+        rootSize = DEFAULT_DIM;
+        fullSize = DEFAULT_DIM * DEFAULT_DIM;
     }
-
     generateEmptyBoard();
-
 }
 
 Board::Board(const string &filename) {
@@ -21,13 +28,6 @@ Board::Board(const string &filename) {
 
     readFile(filename);
 
-}
-
-Board::~Board() {
-    for (unsigned i = 0; i < fullSize; i++) {
-        delete [] boardData[i];
-    }
-    delete [] boardData;
 }
 
 Board::Board(const Board &other) {
@@ -41,6 +41,21 @@ Board::Board(const Board &other) {
     }
 
 }
+
+/*****************************************************
+                    DESTRUCTOR 
+ ******************************************************/
+
+Board::~Board() {
+    for (unsigned i = 0; i < fullSize; i++) {
+        delete [] boardData[i];
+    }
+    delete [] boardData;
+}
+
+/*****************************************************
+                    SETUP BOARD 
+ ******************************************************/
 
 void Board::readFile(const string &filename) {
     ifstream inFile(filename);
@@ -101,23 +116,27 @@ void Board::generateBoard(difficulty d) {
     /* how to solve a sudoku board */
     /* place random numbers if valid and if not then backtrack 
      * remove numbers until the number of ways to solve is one
-     * 
-     *  
      */
     
     solveBoard();
 
-    // keep track of idxs you've tried
+    // TODO keep track of idxs you've tried
     // and keep track of items you've removed
     
     int removed = 0;
     int r, c, original; 
-    r = get_random(0, fullSize-1);
-    c = get_random(0, fullSize-1);
-
-    while (removed <= toRemove) {
-        r = get_random(0, fullSize-1);
-        c = get_random(0, fullSize-1);
+    // permute digits to try (all 81)
+    // then you can go through that array to see which ones you can remove
+    // calculate row and col of it 
+    vector <int> all_cells = permute_digits_0idx(fullSize * fullSize);
+    int i = 0;
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+    while ((removed <= toRemove) && i < all_cells.size()) { 
+        // r = get_random(0, fullSize-1);
+        // c = get_random(0, fullSize-1);
+        r = all_cells[i] / fullSize;
+        c = all_cells[i] % fullSize;
+        cout << "Try " << r << ", " << c << endl;
         original = boardData[r][c];
         boardData[r][c] = 0;
 
@@ -129,10 +148,15 @@ void Board::generateBoard(difficulty d) {
             removed++;
         }
         
-        
+        i++;
     }
-
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+    std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::seconds>(end - begin).count() << "[s]" << std::endl;
 }
+
+/*****************************************************
+                   PRINTING / OUTPUT
+ ******************************************************/
 
 void Board::printHline(){
     for (int l = 0; l < (rootSize * rootSize * 4); l++) {
@@ -159,15 +183,33 @@ void Board::printBoard() {
     
 }
 
-int Board::getSize() {
-    return fullSize;
+void Board::outputBoard() {
+    for (int r = 0; r < fullSize; r++) {
+        for (int c = 0; c < fullSize; c++) {
+            cout << boardData[r][c];
+        }
+    }
+    cout << endl;
 }
+
+string Board::getString() {
+    string boardString = "";
+    for (int r = 0; r < fullSize; r++) {
+        for (int c = 0; c < fullSize; c++) {
+            boardString += to_string(boardData[r][c]);
+        }
+    }
+    return boardString;
+}
+
+
+
+/*****************************************************
+                      SOLVING
+ ******************************************************/
 
 bool Board::isValidNum(int r, int c, int val) {
     
-    // int val = boardData[r][c];
-    // cout << "is " << val << " valid?\n";
-    // if val is 0, then it is a valid empty cell
     if (val == 0) return true; 
 
     for (int i = 0; i < fullSize; i++) {
@@ -192,7 +234,6 @@ int Board::solveBoard() {
 
 
 int Board::numWaysToSolve() {
-    // Board *currBoard = new Board(*this);
     return numWaysToSolveRec(0, 0); 
 }
     
@@ -258,6 +299,7 @@ int Board::numWaysToSolveRec(int r, int c) {
             newBoard->boardData[r][c] = n; 
             int currways = newBoard->numWaysToSolveRec(r, c + 1);
             numways += currways;
+            if (numways > 1) return 2;
             delete newBoard;
         }
     }
@@ -265,24 +307,7 @@ int Board::numWaysToSolveRec(int r, int c) {
 }
 
 
-void Board::outputBoard() {
-    for (int r = 0; r < fullSize; r++) {
-        for (int c = 0; c < fullSize; c++) {
-            cout << boardData[r][c];
-        }
-    }
-    cout << endl;
-}
 
-string Board::getString() {
-    string boardString = "";
-    for (int r = 0; r < fullSize; r++) {
-        for (int c = 0; c < fullSize; c++) {
-            boardString += to_string(boardData[r][c]);
-        }
-    }
-    return boardString;
-}
 
 bool Board::isValidBoard() {
     for (int r = 0; r < fullSize; r++) {
@@ -291,4 +316,12 @@ bool Board::isValidBoard() {
         }
     }
     return true; 
+}
+
+/*****************************************************
+                    GETTERS / SETTERS
+ ******************************************************/
+
+int Board::getSize() {
+    return fullSize;
 }
