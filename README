@@ -1,20 +1,16 @@
-TODO: 
+# Epic Sudoku Puzzle Generator
 
-GOAL 1: Generate a board
-Generate it:
-- Using memoization and backtracking, generate how many options you have 
-- Remove squares at random from a randomly generated board (as longs as ways to solve < 2)
-- Remove certain amount of squares as long as this condition is true
-- Dont try same squares twice
+## 1: Generate a board in C++
+* Using memoization and backtracking, generate how many options you have 
+* Remove squares at random from a randomly generated board (as longs as ways to solve < 2)
+* Remove certain amount of squares as long as this condition is true
+* Dont try same squares twice
 Testing: 
-- Python script to read in all of csv to test
+* Python script to read in all of csv to test
 
-GOAL 2: Generate different difficulties
-- ML model in python using kaggle dataset? 
-- Look at different patterns in python 
 
-GOAL 3: Make printable versions
-- Python? 
+## Continuation:
+Generate different difficulties based on an intelligent model
+* ML model in python using kaggle dataset? 
+* Look at different patterns in python 
 
-GOAL 4: Deploy
-- Make sure compatible with many types of boards as always
